@@ -2,9 +2,9 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = function (knex) {
+exports.up = async function (knex) {
     return knex.schema.createTable('jobs', function (table) {
-        table.increments('id').primary();
+        table.uuid('id').primary().defaultTo(knex.raw('(UUID())'));
         table.string('image_url');
         table.string('position');
         table.string('jobLocation');
@@ -15,6 +15,7 @@ exports.up = function (knex) {
         table.string('jobType');
         table.string('status');
         table.string('workMode');
+        table.timestamp("created_at").defaultTo(knex.fn.now());
     });
 };
 

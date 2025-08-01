@@ -2,7 +2,12 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
+
+const { v4: uuidv4 } = require('uuid');
+
 exports.seed = async function (knex) {
+  const now = new Date();
+
   const commonFields = {
     workMode: 'Onsite',
     description:
@@ -94,6 +99,8 @@ exports.seed = async function (knex) {
 
 
   const finalData = jobs.map(job => ({
+    created_at: new Date(now.getTime() + 10 * 1000),
+    id: uuidv4(),
     ...commonFields,
     ...job
   }));
