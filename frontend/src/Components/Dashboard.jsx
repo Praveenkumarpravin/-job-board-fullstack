@@ -83,8 +83,8 @@ function Dashboard() {
           ? true
           : job.jobType.toLowerCase() === jobType.toLowerCase();
 
-      const salaryFrom = parseInt(job.salaryRangeFrom, 10) || 0;
-      const salaryTo = parseInt(job.salaryRangeTo, 10) || 0;
+      const salaryFrom = parseInt(job.salaryFrom, 10) || 0;
+      const salaryTo = parseInt(job.salaryTo, 10) || 0;
       const salaryMatch = isDefaultSalary
         ? true
         : salaryTo >= salary[0] && salaryFrom <= salary[1];
