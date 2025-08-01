@@ -2,7 +2,7 @@ const db = require('../db/knex');
 
 exports.getJobs = async (req, res) => {
   try {
-    const jobs = await db('jobs').select('*');
+    const jobs = await db('jobs').select('*').orderBy("created_at", "desc");
     res.status(200).json({ message: "Job Details Fetched Successfully", jobs })
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch jobs' });
