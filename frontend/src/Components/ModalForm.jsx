@@ -3,6 +3,7 @@ import styled from "styled-components";
 import vector from "../assets/Vector.svg";
 import right from "../assets/right.svg";
 import { axiosInstance } from "../api/api";
+import { v4 as uuidv4 } from "uuid";
 
 const FullPage = styled.div`
   position: absolute;
@@ -149,6 +150,8 @@ const ErrorText = styled.span`
 `;
 
 function ModalForm({ toggle, toggleChange }) {
+  const now = new Date();
+
   const [formData, setFormData] = useState({
     position: "",
     company: "",
@@ -187,18 +190,20 @@ function ModalForm({ toggle, toggleChange }) {
     if (!validate()) return;
 
     const companyImages = {
-      swiggy: 'https://i.postimg.cc/QCF6P0gB/7e07718c0675defaeb592dd304b61e51d286bcfc.png',
-      microsoft: 'https://i.postimg.cc/L4rKS1qd/3c2e280a3eff5d7381303c181d3f7a5a7778aa27.png',
-      amazon: "https://i.postimg.cc/9f1JQvJR/a96acfcadfa915e57e5d15e9fa0669560844f362-1.png",
+      swiggy:
+        "https://i.postimg.cc/QCF6P0gB/7e07718c0675defaeb592dd304b61e51d286bcfc.png",
+      microsoft:
+        "https://i.postimg.cc/L4rKS1qd/3c2e280a3eff5d7381303c181d3f7a5a7778aa27.png",
+      amazon:
+        "https://i.postimg.cc/9f1JQvJR/a96acfcadfa915e57e5d15e9fa0669560844f362-1.png",
     };
 
     const defaultImage =
-      "https://i.postimg.cc/9f1JQvJR/a96acfcadfa915e57e5d15e9fa0669560844f362-1.png";
+      "https://i.postimg.cc/VvWyR2C2/building-vector-icon.jpg";
 
     function getCompanyImage(companyName) {
       const lowerName = companyName.toLowerCase();
 
-      // Fuzzy match: check if any known key exists in the input
       for (const key in companyImages) {
         if (lowerName.includes(key)) {
           return companyImages[key];
@@ -209,6 +214,8 @@ function ModalForm({ toggle, toggleChange }) {
     }
 
     const jobData = {
+      id: uuidv4(),
+      created_at: new Date().toISOString().slice(0, 23).replace("T", " "),
       image_url: getCompanyImage(formData.company),
       position: formData.position,
       company: formData.company,
@@ -218,6 +225,7 @@ function ModalForm({ toggle, toggleChange }) {
       salaryTo: formData.salaryTo,
       description: formData.description,
       workMode: "Onsite",
+      status: "Pending",
     };
 
     try {
